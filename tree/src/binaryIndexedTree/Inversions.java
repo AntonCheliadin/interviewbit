@@ -23,9 +23,7 @@ public class Inversions {
         BinaryIndexedTree bit = new BinaryIndexedTree(max);
 
         int inversions = 0;
-
         for (int i = A.size() - 1; i >= 0; i--) {
-
             inversions += bit.getSum(A.get(i) - 1);
 
             bit.update(A.get(i), 1);
