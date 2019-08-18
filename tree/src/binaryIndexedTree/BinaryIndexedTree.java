@@ -6,7 +6,8 @@ public class BinaryIndexedTree {
         int freq[] = {2, 1, 1, 3, 2, 3,
                 4, 5, 6, 7, 8, 9};
 
-        BinaryIndexedTree binaryIndexedTree = new BinaryIndexedTree(freq);
+        BinaryIndexedTree binaryIndexedTree = new BinaryIndexedTree(freq.length);
+        binaryIndexedTree.construct(freq);
 
         int sum5 = binaryIndexedTree.getSum(5);
 
@@ -21,11 +22,10 @@ public class BinaryIndexedTree {
 
     private int[] bit;
 
-    BinaryIndexedTree(int[] arr) {
-        bit = new int[arr.length + 1];
+    BinaryIndexedTree(int length) {
+        bit = new int[length + 1];
 
         initFill();
-        construct(arr);
     }
 
     private void initFill() {
@@ -34,7 +34,7 @@ public class BinaryIndexedTree {
         }
     }
 
-    private void construct(int[] arr) {
+    void construct(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             update(i, arr[i]);
         }
