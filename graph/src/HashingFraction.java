@@ -35,11 +35,11 @@ public class HashingFraction {
         if (denominator == 0)
             return "";
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         // is result is negative
         if ((numerator < 0) ^ (denominator < 0)) {
-            result += "-";
+            result.append('-');
         }
 
         // convert int to long
@@ -49,33 +49,31 @@ public class HashingFraction {
 
         // quotient
         long res = num / den;
-        result += String.valueOf(res);
+        result.append(res);
 
         // if remainder is 0, return result
         long remainder = (num % den) * 10;
         if (remainder == 0)
-            return result;
+            return result.toString();
 
         // right-hand side of decimal point
         HashMap<Long, Integer> startPositionByRemainder = new HashMap<Long, Integer>();
-        result += ".";
-        while (remainder != 0) {
-            // if digits repeat
-            if (startPositionByRemainder.containsKey(remainder)) {
-                int beg = startPositionByRemainder.get(remainder);
-                String part1 = result.substring(0, beg);
-                String part2 = result.substring(beg);
-                result = part1 + "(" + part2 + ")";
-                return result;
-            }
+        result.append('.');
 
-            // continue
+        while (!startPositionByRemainder.containsKey(remainder)) {
             startPositionByRemainder.put(remainder, result.length());
             res = remainder / den;
-            result += String.valueOf(res);
+            result.append(res);
             remainder = (remainder % den) * 10;
+
+            if (remainder == 0) {
+                return result.toString();
+            }
         }
 
-        return result;
+        int beg = startPositionByRemainder.get(remainder);
+        result.insert(beg, '(');
+        result.append(')');
+        return result.toString();
     }
 }
